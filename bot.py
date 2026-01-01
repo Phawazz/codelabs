@@ -22,8 +22,8 @@ async def custom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 def handle_response(text: str) -> str:
     
     processed: str = text.lower()
-    print(processed)
-    if 'hello' or 'Hi' in processed:
+ 
+    if 'hello' in processed:
         return 'Hey there!'
     
     if 'how are you' in processed:
