@@ -1,9 +1,20 @@
 from typing import Final
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+from openai import OpenAI
+import os
+from dotenv import load_dotenv
+
+# 1. Load the variables from .env into the system
+load_dotenv()
+
+# 2. Access them using os.getenv()
+API_KEY = os.getenv("API_KEY")
+TG_BOT_TOKEN = os.getenv("TG_BOT_TOKEN")
 
 
-TOKEN: Final = '8522170350:AAEkQx1OlHo3W3Wr2-_5r-P3IcZBU5MhDD4'
+client = OpenAI(api_key = API_KEY)
+TOKEN: Final = TG_BOT_TOKEN
 BOT_USERNAME: Final = '@learn_practise_bot'
 
 # Commands
@@ -23,17 +34,15 @@ def handle_response(text: str) -> str:
     
     processed: str = text.lower()
  
-    if 'hello' in processed:
-        return 'Hey there!'
+    response = client.responses.create(
+        model="gpt-5-nano",
+        input=processed
+    )
     
-    if 'how are you' in processed:
-        return 'I am good'
+    print(response.output_text)
+    return response.output_text
     
-    if 'i love python' in processed:
-        return 'Remember to subscribe'
     
-    return 'I do not understand what you wrote'
-
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message_type: str = update.message.chat.type
     text: str = update.message.text
