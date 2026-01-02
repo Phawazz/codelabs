@@ -5,7 +5,7 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-TOKEN: Final = '8522170350:AAEWU4X_4vqY1qGq223iO6Nt5uSW-EK-P64'
+TOKEN: Final = os.getenv('TG_BOT_TOKEN')
 BOT_USERNAME: Final = '@learn_practise_bot'
 
 
